@@ -1,0 +1,233 @@
+basePath: /api
+definitions:
+  go-template_internal_models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        description: 電子郵件
+        type: string
+      id:
+        type: integer
+      last_login:
+        description: 最後登入時間
+        type: string
+      status:
+        description: 帳號狀態
+        type: integer
+      updatedAt:
+        type: string
+      username:
+        description: 帳號名稱
+        type: string
+    required:
+    - email
+    - username
+    type: object
+  go-template_internal_utils_response.ErrorResponseData:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  go-template_internal_utils_response.SuccessResponseData:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  internal_api_handlers_user.loginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server Go Template server.
+  termsOfService: http://swagger.io/terms/
+  title: Go Template API
+  version: "1.0"
+paths:
+  /user:
+    delete:
+      description: 刪除指定使用者
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 刪除成功
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.SuccessResponseData'
+        "404":
+          description: 使用者不存在
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "500":
+          description: 系統錯誤
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+      summary: 刪除使用者
+      tags:
+      - User
+    get:
+      description: 取得指定使用者的資訊
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 取得成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/go-template_internal_utils_response.SuccessResponseData'
+            - properties:
+                Data:
+                  $ref: '#/definitions/go-template_internal_models.User'
+              type: object
+        "404":
+          description: 使用者不存在
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "500":
+          description: 系統錯誤
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+      summary: 取得使用者資訊
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: 更新指定使用者的資訊
+      parameters:
+      - description: 使用者資料
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/go-template_internal_models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/go-template_internal_utils_response.SuccessResponseData'
+            - properties:
+                Data:
+                  $ref: '#/definitions/go-template_internal_models.User'
+              type: object
+        "400":
+          description: 錯誤的請求
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "404":
+          description: 使用者不存在
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "500":
+          description: 系統錯誤
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+      summary: 更新使用者資訊
+      tags:
+      - User
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: 登入一個已註冊的使用者
+      parameters:
+      - description: 使用者登入資訊
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/internal_api_handlers_user.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登入成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/go-template_internal_utils_response.SuccessResponseData'
+            - properties:
+                Data:
+                  type: string
+              type: object
+        "400":
+          description: 錯誤的請求
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "401":
+          description: 使用者不存在或密碼錯誤
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "500":
+          description: 系統錯誤
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+      summary: 登入使用者
+      tags:
+      - User
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: 註冊一個新的使用者
+      parameters:
+      - description: 使用者資料
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/go-template_internal_models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 註冊成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/go-template_internal_utils_response.SuccessResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/go-template_internal_models.User'
+              type: object
+        "400":
+          description: 錯誤的請求
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+        "500":
+          description: 系統錯誤
+          schema:
+            $ref: '#/definitions/go-template_internal_utils_response.ErrorResponseData'
+      summary: 註冊使用者
+      tags:
+      - User
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
