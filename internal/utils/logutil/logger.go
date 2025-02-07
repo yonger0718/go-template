@@ -10,6 +10,8 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+// TODO 增加env的格式來選擇要開啟的模式單純為std或file
+
 // Logger 全局日誌變數
 var Logger *zap.SugaredLogger
 

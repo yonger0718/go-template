@@ -23,6 +23,11 @@ func NewUserHandler(userService services.UserService) *Handler {
 	return &Handler{userService: userService}
 }
 
+type loginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 // RegisterUser 處理使用者註冊的請求
 // @Summary 註冊使用者
 // @Description 註冊一個新的使用者
@@ -30,9 +35,10 @@ func NewUserHandler(userService services.UserService) *Handler {
 // @Accept  json
 // @Produce  json
 // @Param user body models.User true "使用者資料"
-// @Success 201 {object} models.User "註冊成功"
-// @Failure 400 {object} response.ErrorResponse "錯誤的請求"
-// @Failure 500 {object} response.ErrorResponse "系統錯誤"
+// @Success 201 {object} response.SuccessResponseData{data=models.User} "註冊成功"
+// @Failure 400 {object} response.ErrorResponseData "錯誤的請求"
+// @Failure 500 {object} response.ErrorResponseData "系統錯誤"
+// @Router /user/register [post]
 func (h *Handler) RegisterUser(c *gin.Context) {
 	var input struct {
 		Username string `json:"username" binding:"required"`
@@ -78,10 +84,12 @@ func (h *Handler) RegisterUser(c *gin.Context) {
 // @Tags User
 // @Accept  json
 // @Produce  json
-// @Param user body LoginUser true "使用者登入資料"
-// @Success 200 {object} response.SuccessResponse "登入成功"
-// @Failure 401 {object} response.ErrorResponse "使用者不存在或密碼錯誤"
-// @Failure 500 {object} response.ErrorResponse "系統錯誤"
+// @Param credentials body loginRequest true "使用者登入資訊"
+// @Success 200 {object} response.SuccessResponseData{Data=string} "登入成功"
+// @Failure 400 {object} response.ErrorResponseData "錯誤的請求"
+// @Failure 401 {object} response.ErrorResponseData "使用者不存在或密碼錯誤"
+// @Failure 500 {object} response.ErrorResponseData "系統錯誤"
+// @Router /user/login [post]
 func (h *Handler) LoginUser(c *gin.Context) {
 	var input struct {
 		Username string `json:"username" binding:"required"`
@@ -120,9 +128,12 @@ func (h *Handler) LoginUser(c *gin.Context) {
 // @Description 取得指定使用者的資訊
 // @Tags User
 // @Produce  json
-// @Success 200 {object} models.User "取得成功"
-// @Failure 404 {object} response.ErrorResponse "使用者不存在"
-// @Failure 500 {object} response.ErrorResponse "系統錯誤"
+// @Param id path int true "User ID"
+// @Security BearerAuth
+// @Success 200 {object} response.SuccessResponseData{Data=models.User} "取得成功"
+// @Failure 404 {object} response.ErrorResponseData "使用者不存在"
+// @Failure 500 {object} response.ErrorResponseData "系統錯誤"
+// @Router /user/{id} [get]
 func (h *Handler) GetUser(c *gin.Context) {
 	// 從 gin.Context 中取得 userID
 	userID, exists := c.Get(constants.CtxUserIDKey)
@@ -159,6 +170,19 @@ func (h *Handler) GetUser(c *gin.Context) {
 }
 
 // UpdateUser 處理更新使用者資訊的請求
+// @Summary 更新使用者資訊
+// @Description 更新指定使用者的資訊
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param id path int true "使用者 ID"
+// @Security BearerAuth
+// @Param user body models.User true "使用者資料"
+// @Success 200 {object} response.SuccessResponseData{Data=models.User} "更新成功"
+// @Failure 400 {object} response.ErrorResponseData "錯誤的請求"
+// @Failure 404 {object} response.ErrorResponseData "使用者不存在"
+// @Failure 500 {object} response.ErrorResponseData "系統錯誤"
+// @Router /user/{id} [put]
 func (h *Handler) UpdateUser(c *gin.Context) {
 	// 從 gin.Context 中取得 userID
 	userID, exists := c.Get(constants.CtxUserIDKey)
@@ -203,9 +227,12 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 // @Description 刪除指定使用者
 // @Tags User
 // @Produce  json
-// @Success 200 {object} response.SuccessResponse "刪除成功"
-// @Failure 404 {object} response.ErrorResponse "使用者不存在"
-// @Failure 500 {object} response.ErrorResponse "系統錯誤"
+// @Param id path int true "使用者 ID"
+// @Security BearerAuth
+// @Success 200 {object} response.SuccessResponseData "刪除成功"
+// @Failure 404 {object} response.ErrorResponseData "使用者不存在"
+// @Failure 500 {object} response.ErrorResponseData "系統錯誤"
+// @Router /user/{id} [delete]
 func (h *Handler) DeleteUser(c *gin.Context) {
 	// 從 gin.Context 中取得 userID
 	userID, exists := c.Get(constants.CtxUserIDKey)

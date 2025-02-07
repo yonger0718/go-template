@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// User 定義使用者資料 Struct
 type User struct {
 	gorm.Model           // gorm.Model 包含了ID、CreatedAt、UpdatedAt字段
 	Username   string    `json:"username"    validate:"required"       gorm:"unique;not null"` // 帳號名稱

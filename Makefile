@@ -6,12 +6,14 @@ all: build test
 build:
 	@echo "Building..."
 	
-	
-	@go build -o main cmd/api/main.go
+	@go build -o main cmd/go-template/main.go cmd/go-template/wire_gen.go
 
 # Run the application
+# ref: https://github.com/google/wire/pull/363
 run:
-	@go run cmd/api/main.go
+	@echo "Running..."
+	@go run cmd/go-template/main.go cmd/go-template/wire_gen.go
+
 # Create DB container
 docker-run:
 	@if docker compose up --build 2>/dev/null; then \
@@ -61,4 +63,17 @@ watch:
             fi; \
         fi
 
-.PHONY: all build run test clean watch docker-run docker-down itest
+# Generate Swagger docs
+swag:
+	@echo "Generating Swagger docs..."
+	@swag init -g cmd/go-template/main.go --parseDependency --parseInternal
+
+migrate:
+	@echo "Running migrations..."
+	@go run migrations/main.go
+
+generate:
+	@echo "Generating..."
+	@wire gen cmd/go-template/wire.go
+
+.PHONY: all build run test clean watch docker-run docker-down itest swag generate

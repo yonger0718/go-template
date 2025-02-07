@@ -18,6 +18,10 @@ import (
 	"net/http"
 )
 
+import (
+	_ "go-template/docs"
+)
+
 // Injectors from wire.go:
 
 // InitializeServer 使用 Wire 進行依賴注入，初始化 HTTP server

@@ -14,30 +14,35 @@
 ```
 project-root/
 ├── cmd/               # 主應用程序入口點
-│   └── server/
+│   └── go-template/
 │       └── main.go      # 程式進入點
 │       └── wire.go      # Wire 依賴注入配置
 │       └── wire_gen.go  # Wire 自動生成的檔案，請勿修改
 │
+├── docs/              # 文件
+│   └── docs.go        # swagger API 文件，透過 gin-swagger 自動產生
+│   └── swagger.json   # swagger API 文件，透過 gin-swagger 自動產生
+│   └── swaager.yaml   # swagger API 文件，透過 gin-swagger 自動產生
+│ 
 ├── internal/          # 私有代碼，不能被其他專案導入
 │   ├── api/           # API 相關邏輯
 │   │   ├── handlers/  # 控制器（handlers）
-│   │   │   └── user/
-│   │   │       └── user_handler.go # 使用者相關的處理函數
-│   │   │   └── errors.go      # 錯誤定義
-│   │   └── routes/    # 路由定義
-│   │       └── user_routes.go     # 使用者相關的路由
+│   │   │   ├── user/
+│   │   │   │   └── user_handler.go    # 使用者相關的處理函數
+│   │   │   └──routes/                 # 路由定義
+│   │   │       └── user_routes.go     # 使用者相關的路由
+│   │   └── errors.go                  # 錯誤定義
 │   │
 │   ├── models/        # 數據模型
 │   │   └── user.go    # 使用者模型
 │   │
-│   ├── repositories/  # 數據訪問層
-│   │   └── user_repository.go # 使用者資料的 CRUD 操作
+│   ├── repository/    # 數據訪問層
+│   │   └── user.go    # 使用者資料的 CRUD 操作
 │   │
 │   ├── services/      # 業務邏輯層
 │   │   └── impl
-│   │       └── user_service_impl.go # 使用者服務的具體實現
-│   │   └── user_service.go          # 使用者服務的介面定義
+│   │       └── userImpl.go  # 使用者服務的具體實現
+│   │   └── user.go          # 使用者服務的介面定義
 │   │
 │   ├── server/              # 後端伺服器
 │   │   └── server.go        # 伺服器設定與啟動
@@ -51,10 +56,10 @@ project-root/
 │   ├── utils/         # 通用工具函數
 │   │   ├── database/
 │   │   │   └── database.go # 資料庫連線
-│   │   └── jwt/
-│   │       └── jwt.go      # JWT 相關函數
-│   │   └── logutil/        # 日誌工具
-│   │       └── logutil.go  # 日誌函數
+│   │   ├── jwt/
+│   │   │   └── jwt.go      # JWT 相關函數
+│   │   ├── logutil/        # 日誌工具
+│   │   │   └── logutil.go  # 日誌函數
 │   │   └── response/
 │   │       └── response.go # HTTP 回應的輔助函數
 │   │
@@ -169,8 +174,8 @@ SERVICE_NAME=go-template   # 服務名稱
 
 ### 執行 Wire
 
-每次修改 `cmd/server/wire.go` 後，都需要執行以下指令重新產生 `cmd/server/wire_gen.go`：
-先 `cd cmd/server` 再執行下面指令
+每次修改 `cmd/go-template/wire.go` 後，都需要執行以下指令重新產生 `cmd/go-template/wire_gen.go`：
+先 `cd cmd/go-template` 再執行下面指令
 
 ```bash
 wire gen
@@ -181,9 +186,16 @@ wire gen
 1. **設定環境變數：** 根據你的資料庫設定和 JWT 配置，在 `.env` 檔案中設定對應的環境變數。可以參考 `.env.example`。
 2. **建立 `logs` 目錄:**  在專案根目錄下建立 `logs` 目錄，用於儲存日誌檔案, 如果沒有此目錄會導致程式無法正常執行。
 3. **安裝依賴：** 在專案根目錄下執行 `go mod tidy`。
-4. **執行 Wire：** `cd cmd/server`，執行 `go generate ./...` 重新產生 `wire_gen.go` 檔案。
+4. **執行 Wire：** `cd cmd/go-template`，執行 `go generate ./...` 重新產生 `wire_gen.go` 檔案。
 5. **執行資料庫遷移：** 執行 `go run migrations/migrate.go`。
-6. **啟動伺服器：** 執行 `go run cmd/server/main.go`。
+6. **啟動伺服器：** 執行 `go run cmd/go-template/main.go`。
+
+或使用 Makefile：
+- 建置： make build
+- 執行： make run
+- 執行 Wire: make wire
+- 執行資料庫遷移： make migrate
+- 清除： make clean
 
 ### 開發流程
 
@@ -202,8 +214,8 @@ wire gen
 3. **在 `internal/models` 中新增 model (e.g., `product.go`)。**
 4. **在 `internal/repositories` 中新增 repository (e.g., `product_repository.go`)。**
 5. **在 `internal/services` 中新增 service (e.g., `product_service.go` 和 `impl/product_service_impl.go`)。**
-6. **在 `cmd/server/wire.go` 中加入新的依賴項。**
-7. **執行 `go generate ./...` 重新產生 `cmd/server/wire_gen.go`。**
+6. **在 `cmd/go-template/wire.go` 中加入新的依賴項。**
+7. **執行 `make genegare` 或在 `cmd/go-template/` 目錄下執行 `./...` 重新產生 `cmd/go-template/wire_gen.go`。**
 8. **在 `internal/server/server.go` 中的 `NewServer` 函數加入相關依賴 (如果需要)。**
 
 ### 日誌記錄

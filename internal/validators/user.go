@@ -7,8 +7,6 @@ import (
 )
 
 // ValidateUser 驗證使用者資料
-// @param user *models.User 要驗證的使用者資料
-// @return error 錯誤訊息
 func ValidateUser(user *models.User) error {
 	// 檢查使用者名稱長度
 	if len(user.Username) < 4 {
@@ -26,8 +24,6 @@ func ValidateUser(user *models.User) error {
 }
 
 // ValidateNewUser 驗證新增使用者資料
-// @param user *models.User 要驗證的新增使用者資料
-// @return error 錯誤訊息
 func ValidateNewUser(username string, email string, password string) error {
 	// 檢查使用者名稱長度
 	if len(username) < 4 {

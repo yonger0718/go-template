@@ -16,8 +16,8 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 }
 
 // Create 新增一個使用者
-// @param user 新增的使用者
-// @return error 錯誤訊息
+// @Param user body models.User true "新增的使用者資料"
+// @return error "錯誤訊息"
 func (r *UserRepository) Create(user *models.User) error {
 	result := r.db.Create(user)
 	if result.Error != nil {
@@ -29,9 +29,9 @@ func (r *UserRepository) Create(user *models.User) error {
 }
 
 // GetByID 根據 ID 取得使用者
-// @param id 使用者 ID
-// @return user 使用者
-// @return error 錯誤訊息
+// @param id path uint true "使用者 ID"
+// @return models.User "使用者"
+// @return error "錯誤訊息"
 func (r *UserRepository) GetByID(id uint) (*models.User, error) {
 	var user models.User
 	result := r.db.First(&user, id)
@@ -44,9 +44,9 @@ func (r *UserRepository) GetByID(id uint) (*models.User, error) {
 }
 
 // GetByUsername 根據使用者名稱取得使用者
-// @param username 使用者名稱
-// @return user 使用者
-// @return error 錯誤訊息
+// @param username path string true "使用者名稱"
+// @return models.User "使用者"
+// @return error "錯誤訊息"
 func (r *UserRepository) GetByUsername(username string) (*models.User, error) {
 	var user models.User
 	result := r.db.Where("username = ?", username).First(&user)
@@ -59,8 +59,8 @@ func (r *UserRepository) GetByUsername(username string) (*models.User, error) {
 }
 
 // Update 更新使用者資訊
-// @param user 要更新的使用者
-// @return error 錯誤訊息
+// @Param user body models.User true "修改的使用者資料"
+// @return error "錯誤訊息"
 func (r *UserRepository) Update(user *models.User) error {
 	result := r.db.Save(user)
 	if result.Error != nil {
@@ -72,8 +72,8 @@ func (r *UserRepository) Update(user *models.User) error {
 }
 
 // Delete 根據 ID 刪除使用者
-// @param id 使用者 ID
-// @return error 錯誤訊息
+// @param id path uint true "使用者 ID"
+// @return error "錯誤訊息"
 func (r *UserRepository) Delete(id uint) error {
 	result := r.db.Delete(&models.User{}, id)
 	if result.Error != nil {

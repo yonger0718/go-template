@@ -16,142 +16,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/user": {
-            "get": {
-                "description": "取得指定使用者的資訊",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "取得使用者資訊",
-                "responses": {
-                    "200": {
-                        "description": "取得成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/go-template_internal_utils_response.SuccessResponseData"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "Data": {
-                                            "$ref": "#/definitions/go-template_internal_models.User"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "404": {
-                        "description": "使用者不存在",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    },
-                    "500": {
-                        "description": "系統錯誤",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "更新指定使用者的資訊",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "更新使用者資訊",
-                "parameters": [
-                    {
-                        "description": "使用者資料",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_models.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "更新成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/go-template_internal_utils_response.SuccessResponseData"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "Data": {
-                                            "$ref": "#/definitions/go-template_internal_models.User"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "錯誤的請求",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    },
-                    "404": {
-                        "description": "使用者不存在",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    },
-                    "500": {
-                        "description": "系統錯誤",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "刪除指定使用者",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "刪除使用者",
-                "responses": {
-                    "200": {
-                        "description": "刪除成功",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.SuccessResponseData"
-                        }
-                    },
-                    "404": {
-                        "description": "使用者不存在",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    },
-                    "500": {
-                        "description": "系統錯誤",
-                        "schema": {
-                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
-                        }
-                    }
-                }
-            }
-        },
         "/user/login": {
             "post": {
                 "description": "登入一個已註冊的使用者",
@@ -261,6 +125,182 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "錯誤的請求",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    },
+                    "500": {
+                        "description": "系統錯誤",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "取得指定使用者的資訊",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "取得使用者資訊",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "取得成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/go-template_internal_utils_response.SuccessResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "Data": {
+                                            "$ref": "#/definitions/go-template_internal_models.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "使用者不存在",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    },
+                    "500": {
+                        "description": "系統錯誤",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "更新指定使用者的資訊",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "更新使用者資訊",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "使用者 ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "使用者資料",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "更新成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/go-template_internal_utils_response.SuccessResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "Data": {
+                                            "$ref": "#/definitions/go-template_internal_models.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "錯誤的請求",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    },
+                    "404": {
+                        "description": "使用者不存在",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    },
+                    "500": {
+                        "description": "系統錯誤",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "刪除指定使用者",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "刪除使用者",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "使用者 ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "刪除成功",
+                        "schema": {
+                            "$ref": "#/definitions/go-template_internal_utils_response.SuccessResponseData"
+                        }
+                    },
+                    "404": {
+                        "description": "使用者不存在",
                         "schema": {
                             "$ref": "#/definitions/go-template_internal_utils_response.ErrorResponseData"
                         }

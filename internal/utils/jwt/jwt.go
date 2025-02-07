@@ -31,9 +31,6 @@ func NewService(cfg *configs.Config) *Service {
 }
 
 // GenerateToken 產生一個 JWT token
-// @param userID 要放入 token 中的使用者 ID
-// @return string 產生的 JWT token
-// @return error 錯誤訊息
 func (s *Service) GenerateToken(userID uint) (string, error) {
 	// 建立 JWT claims (有效負載)
 	claims := &jwt.RegisteredClaims{
@@ -49,9 +46,6 @@ func (s *Service) GenerateToken(userID uint) (string, error) {
 }
 
 // ValidateToken 驗證 JWT token
-// @param tokenString 要驗證的 JWT token
-// @return uint 使用者 ID
-// @return error 錯誤訊息
 func (s *Service) ValidateToken(tokenString string) (uint, error) {
 	// 先嘗試使用當前密鑰解析 token
 	userID, err := s.validateTokenWithSecret(tokenString, s.secretKey)
@@ -73,9 +67,6 @@ func (s *Service) ValidateToken(tokenString string) (uint, error) {
 }
 
 // validateTokenWithSecret 使用指定的 secret 驗證 token
-// @param tokenString 要驗證的 JWT token
-// @param secret 要使用的 secret 密鑰
-// @return uint 使用者 ID
 func (s *Service) validateTokenWithSecret(tokenString, secret string) (uint, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// 檢查簽名演算法是否符合預期

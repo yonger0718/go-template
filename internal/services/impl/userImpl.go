@@ -24,7 +24,7 @@ func NewUserServiceImpl(repo *repository.UserRepository, jwtService *jwt.Service
 }
 
 // CreateUser 建立一個新的使用者
-// @param user 新的使用者資料
+// @param user body models.User true "使用者資訊"
 // @return error 錯誤訊息
 func (s *UserServiceImpl) CreateUser(user *models.User) error {
 	// 將密碼加密
@@ -47,7 +47,7 @@ func (s *UserServiceImpl) CreateUser(user *models.User) error {
 }
 
 // GetUserByID 根據 ID 取得使用者資訊
-// @param id 使用者 ID
+// @param id path uint true "使用者 ID"
 // @return user 使用者資訊
 // @return error 錯誤訊息
 func (s *UserServiceImpl) GetUserByID(id uint) (*models.User, error) {
@@ -61,7 +61,7 @@ func (s *UserServiceImpl) GetUserByID(id uint) (*models.User, error) {
 }
 
 // GetUserByUsername 根據使用者名稱取得使用者資訊
-// @param username 使用者名稱
+// @param username path string true "使用者名稱"
 // @return user 使用者資訊
 // @return error 錯誤訊息
 func (s *UserServiceImpl) GetUserByUsername(username string) (*models.User, error) {
@@ -75,7 +75,7 @@ func (s *UserServiceImpl) GetUserByUsername(username string) (*models.User, erro
 }
 
 // UpdateUser 更新使用者資訊
-// @param user 使用者資訊
+// @param user body models.User true "使用者資訊"
 // @return error 錯誤訊息
 func (s *UserServiceImpl) UpdateUser(user *models.User) error {
 	err := s.repo.Update(user)
@@ -88,7 +88,7 @@ func (s *UserServiceImpl) UpdateUser(user *models.User) error {
 }
 
 // DeleteUser 刪除使用者
-// @param id 使用者 ID
+// @param id path uint true "使用者 ID"
 // @return error 錯誤訊息
 func (s *UserServiceImpl) DeleteUser(id uint) error {
 	err := s.repo.Delete(id)
@@ -101,8 +101,8 @@ func (s *UserServiceImpl) DeleteUser(id uint) error {
 }
 
 // Login 使用者登入
-// @param username 使用者名稱
-// @param password 密碼
+// @param username body string true "使用者名稱"
+// @param password body string true "密碼"
 // @return token JWT token
 // @return error 錯誤訊息
 func (s *UserServiceImpl) Login(username, password string) (string, error) {

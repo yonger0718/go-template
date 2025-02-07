@@ -11,9 +11,22 @@ import (
 	"syscall"
 	"time"
 
+	_ "go-template/docs" // 導入 docs package，這個 package 由 swag init 產生
 	"go-template/internal/utils/logutil"
 )
 
+// @title Go Template API
+// @version 1.0
+// @description This is a sample server Go Template server.
+// @termsOfService http://swagger.io/terms/
+
+// @host localhost:8080
+// @BasePath /api
+// @schemes http https
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	// 載入配置
 	cfg, err := configs.LoadConfig()

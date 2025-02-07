@@ -21,7 +21,7 @@ func NewUserRoutes(handler *user.Handler, jwtService *jwt.Service) *UserRoutes {
 // RegisterUserRoutes 註冊使用者相關的路由
 func (r *UserRoutes) RegisterUserRoutes(router *gin.Engine) {
 	// 建立一個 /users 的路由群組
-	userGroup := router.Group("/user")
+	userGroup := router.Group("/api/user")
 	{
 		// 公開路由 (不需要身份驗證)
 		userGroup.POST("/register", r.handler.RegisterUser)
