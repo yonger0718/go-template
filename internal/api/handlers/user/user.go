@@ -23,11 +23,6 @@ func NewUserHandler(userService services.UserService) *Handler {
 	return &Handler{userService: userService}
 }
 
-type loginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 // RegisterUser 處理使用者註冊的請求
 // @Summary 註冊使用者
 // @Description 註冊一個新的使用者

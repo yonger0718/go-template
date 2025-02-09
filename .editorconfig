@@ -1,0 +1,29 @@
+; EditorConfig to support per-solution formatting.
+; http://editorconfig.org/
+root = true
+
+; Default
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_size = 2
+max_line_length = 120
+
+; Go Code - match go fmt
+[{go.mod,go.sum,*.go}]
+indent_style = tab
+indent_size = 4
+
+[*.md]
+indent_size = 4
+trim_trailing_whitespace = false
+
+[*.{yaml,yml}]
+indent_size = 2
+
+[Makefile]
+indent_style = tab
+indent_size = 2
