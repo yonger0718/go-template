@@ -35,13 +35,14 @@ func main() {
 	}
 
 	// 初始化日誌
-	logutil.InitLogger(&cfg.Logger)
+	_ = logutil.InitLogger(&cfg.Logger)
 	// 確保程式結束前刷新日誌
 	defer func(Logger *zap.SugaredLogger) {
 		err := Logger.Sync()
 		if err != nil {
 			logutil.Logger.Fatal("failed to sync logger", zap.Error(err))
 		}
+		logutil.CloseLogger()
 	}(logutil.Logger)
 
 	// 可以開始使用 logger 記錄日誌

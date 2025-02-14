@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// 初始化日誌
-	logutil.InitLogger(&cfg.Logger)
+	_ = logutil.InitLogger(&cfg.Logger)
 	// 確保程式結束前刷新日誌
 	defer func(Logger *zap.SugaredLogger) {
 		err := Logger.Sync()

@@ -21,7 +21,7 @@ type Service struct {
 
 // NewService 建立一個新的 JWTService 實例
 func NewService(cfg *configs.Config) *Service {
-	logutil.Logger.Infof("Initializing JWTService with secret: %s", cfg.JWTSecret) // 新增日誌
+	logutil.Logger.Debugf("Initializing JWTService with secret: %s", cfg.JWTSecret) // 新增日誌
 	return &Service{
 		secretKey:     cfg.JWTSecret,
 		oldSecretKeys: cfg.JWTOldSecrets,  // 初始化舊密鑰列表

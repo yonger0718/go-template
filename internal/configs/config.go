@@ -77,14 +77,12 @@ func LoadConfig() (*Config, error) {
 		AppPort:        appPort,
 		Logger: logutil.Config{
 			Level:       getEnv("LOG_LEVEL", "info"),
-			Filename:    getEnv("LOG_FILE", "logs/app.log"),
-			MaxSize:     getIntEnv("LOG_MAX_SIZE", 100),
-			MaxAge:      getIntEnv("LOG_MAX_AGE", 30),
-			MaxBackups:  getIntEnv("LOG_MAX_BACKUPS", 5),
+			Filename:    getEnv("LOG_FILENAME", "logs/app"),
 			LocalTime:   getBoolEnv("LOG_LOCAL_TIME", true),
 			Compress:    getBoolEnv("LOG_COMPRESS", true),
 			ConsoleOut:  getBoolEnv("LOG_CONSOLE_OUT", true),   // 開發環境建議開啟
 			ServiceName: getEnv("SERVICE_NAME", "go-template"), // 新增服務名稱
+			EnableFile:  getBoolEnv("LOG_ENABLE_FILE", true),
 		},
 	}, nil
 }
@@ -98,14 +96,14 @@ func getEnv(key, defaultValue string) string {
 	return value
 }
 
-// getIntEnv 是一個輔助函數，用於取得環境變數 (整數)，並在環境變數不存在時提供預設值
-func getIntEnv(key string, defaultValue int) int {
-	valueStr := getEnv(key, "")
-	if value, err := strconv.Atoi(valueStr); err == nil {
-		return value
-	}
-	return defaultValue
-}
+//// getIntEnv 是一個輔助函數，用於取得環境變數 (整數)，並在環境變數不存在時提供預設值
+//func getIntEnv(key string, defaultValue int) int {
+//	valueStr := getEnv(key, "")
+//	if value, err := strconv.Atoi(valueStr); err == nil {
+//		return value
+//	}
+//	return defaultValue
+//}
 
 // getBoolEnv 是一個輔助函數，用於取得環境變數 (布林值)，並在環境變數不存在時提供預設值
 func getBoolEnv(key string, defaultValue bool) bool {
