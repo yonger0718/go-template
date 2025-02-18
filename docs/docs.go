@@ -390,6 +390,10 @@ const docTemplate = `{
         },
         "internal_api_handlers_user.loginRequest": {
             "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
             "properties": {
                 "password": {
                     "type": "string"

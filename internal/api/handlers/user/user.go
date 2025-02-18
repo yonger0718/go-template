@@ -13,6 +13,12 @@ import (
 	"go-template/internal/validators"
 )
 
+// loginRequest 登入請求的結構體
+type loginRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 // Handler struct，用於處理使用者相關的 HTTP 請求
 type Handler struct {
 	userService services.UserService
@@ -86,10 +92,7 @@ func (h *Handler) RegisterUser(c *gin.Context) {
 // @Failure 500 {object} response.ErrorResponseData "系統錯誤"
 // @Router /user/login [post]
 func (h *Handler) LoginUser(c *gin.Context) {
-	var input struct {
-		Username string `json:"username" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}
+	var input loginRequest
 	// 解析請求的 JSON 數據到 input 變數
 	if err := c.ShouldBindJSON(&input); err != nil {
 		logutil.Logger.Debugf(handlers.ErrMsgInvalidRequestBody, err) // DEBUG 等級
