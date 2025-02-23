@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"go-template/internal/configs"
 
-	"go-template/internal/utils/logutil"
+	"go-template/internal/utils/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormLog "gorm.io/gorm/logger"
 )
 
 // Service 介面，定義資料庫操作方法
@@ -31,12 +31,12 @@ func Start(cfg *configs.Config) *gorm.DB {
 
 	// 連線到 Postgres 資料庫
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Error), // 設定 logger 等級為 Error
+		Logger: gormLog.Default.LogMode(gormLog.Error), // 設定 logger 等級為 Error
 	})
 
 	// 如果連線失敗，則 panic
 	if err != nil {
-		logutil.Logger.Fatalf("failed to connect database, err: %v", err)
+		logger.Logger.Fatalf("failed to connect database, err: %v", err)
 		return nil
 	}
 

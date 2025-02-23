@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"go-template/internal/utils/logutil"
+	"go-template/internal/utils/logger"
 )
 
 // Service Struct，用於產生和驗證 JWT token
@@ -21,7 +21,7 @@ type Service struct {
 
 // NewService 建立一個新的 JWTService 實例
 func NewService(cfg *configs.Config) *Service {
-	logutil.Logger.Debugf("Initializing JWTService with secret: %s", cfg.JWTSecret) // 新增日誌
+	logger.Logger.Debugf("Initializing JWTService with secret: %s", cfg.JWTSecret) // 新增日誌
 	return &Service{
 		secretKey:     cfg.JWTSecret,
 		oldSecretKeys: cfg.JWTOldSecrets,  // 初始化舊密鑰列表
@@ -57,12 +57,12 @@ func (s *Service) ValidateToken(tokenString string) (uint, error) {
 	for _, oldSecret := range s.oldSecretKeys {
 		userID, err := s.validateTokenWithSecret(tokenString, oldSecret)
 		if err == nil {
-			logutil.Logger.Warnf("Token validated with old secret key")
+			logger.Logger.Warnf("Token validated with old secret key")
 			return userID, nil
 		}
 	}
 
-	logutil.Logger.Debugf("Invalid token: %v", err)
+	logger.Logger.Debugf("Invalid token: %v", err)
 	return 0, errors.New("invalid token")
 }
 

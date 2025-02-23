@@ -8,14 +8,18 @@ package main
 
 import (
 	"go-template/internal/api/handlers/routes"
-	"go-template/internal/api/handlers/user"
+	user2 "go-template/internal/api/handlers/user"
 	"go-template/internal/configs"
 	"go-template/internal/repository"
 	"go-template/internal/server"
-	"go-template/internal/services/impl"
+	"go-template/internal/services/user"
 	"go-template/internal/utils/database"
 	"go-template/internal/utils/jwt"
 	"net/http"
+)
+
+import (
+	_ "go-template/assets/swagger"
 )
 
 // Injectors from wire.go:
@@ -25,16 +29,16 @@ func InitializeServer(cfg *configs.Config) (*http.Server, func(), error) {
 	db := database.Start(cfg)
 	service := jwt.NewService(cfg)
 	userRepository := repository.NewUserRepository(db)
-	userService := impl.NewUserServiceImpl(userRepository, service)
-	handler := user.NewUserHandler(userService)
-	userRoutes := routes.NewUserRoutes(handler, service)
+	userService := user.NewUserService(userRepository, service)
+	handler := user2.NewHandler(userService)
+	userRoutes := routes.NewUser(handler, service)
 	config := server.Config{
 		DB:          db,
 		JwtService:  service,
 		UserService: userRoutes,
 		Config:      cfg,
 	}
-	httpServer := server.NewServer(config)
+	httpServer := server.Start(config)
 	return httpServer, func() {
 	}, nil
 }

@@ -4,15 +4,15 @@
 package main
 
 import (
-	"go-template/internal/api/handlers/routes"
-	"go-template/internal/configs"
+	userHandler "go-template/internal/api/handlers/user"
 	"go-template/internal/repository"
 	"net/http"
 
 	"github.com/google/wire"
-	"go-template/internal/api/handlers/user"
+	"go-template/internal/api/handlers/routes"
+	"go-template/internal/configs"
 	"go-template/internal/server"
-	"go-template/internal/services/impl"
+	userSvc "go-template/internal/services/user"
 	"go-template/internal/utils/database"
 	"go-template/internal/utils/jwt"
 )
@@ -22,12 +22,12 @@ func InitializeServer(cfg *configs.Config) (*http.Server, func(), error) {
 	wire.Build(
 		// 依序綁定各個依賴項
 		database.Start,
-		jwt.NewService,
 		repository.NewUserRepository,
-		impl.NewUserServiceImpl,
-		user.NewUserHandler,
-		routes.NewUserRoutes,
-		server.NewServer,
+		jwt.NewService,
+		userSvc.NewUserService,
+		userHandler.NewHandler,
+		routes.NewUser,
+		server.Start,
 		// 將多個依賴項組合成 ServerConfig 結構體
 		wire.Struct(new(server.Config), "*"),
 	)

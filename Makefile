@@ -111,7 +111,7 @@ watch:
 .PHONY: generate
 generate:
 	@echo "Generating go files..."
-	@go run $(GOWIRE_PACKAGE) gen ./cmd/go-template/wire.go
+	@go run $(GOWIRE_PACKAGE) gen ./cmd/go-template/...
 
 SWAG_BIN := $(shell which swag 2>/dev/null)
 # Generate Swagger docs
@@ -123,7 +123,7 @@ swag:
 		go install $(GOSWAG_PACKAGE); \
 	fi
 	@echo "Generating Swagger docs..."
-	@go run $(GOSWAG_PACKAGE) init -g cmd/go-template/main.go --parseDependency --parseInternal
+	@go run $(GOSWAG_PACKAGE) init -g cmd/go-template/main.go --parseDependency --parseInternal --output ./assets/swagger
 
 ##@ Migrations
 .PHONY: migrate
@@ -140,9 +140,9 @@ tidy:
 .PHONY: deps
 deps:
 	@echo "Installing dependencies..."
-	@$(GO) install $(GOLANGCI_LINT_PACKAGE)
-	@$(GO) install $(GOSEC_PACKAGE)
-	@$(GO) install $(GOVULNCHECK_PACKAGE)
-	@$(GO) install $(GOWIRE_PACKAGE)
-	@$(GO) install $(GO_SWAG_PACKAGE)
-	@$(GO) install $(EDITORCONFIG_CHECKER_PACKAGE)
+	@(GO) install $(GOLANGCI_LINT_PACKAGE)
+	@(GO) install $(GOSEC_PACKAGE)
+	@(GO) install $(GOVULNCHECK_PACKAGE)
+	@(GO) install $(GOWIRE_PACKAGE)
+	@(GO) install $(GO_SWAG_PACKAGE)
+	@(GO) install $(EDITORCONFIG_CHECKER_PACKAGE)

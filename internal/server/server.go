@@ -22,15 +22,15 @@ type Config struct {
 	Config      *configs.Config // 這是通用的配置，例如 AppPort
 }
 
-// NewServer 建立一個新的 HTTP server 實例
-func NewServer(cfg Config) *http.Server {
+// Start 建立一個新的 HTTP server 實例
+func Start(cfg Config) *http.Server {
 	router := gin.Default()
 
 	// 註冊 swagger 相關的路由
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 註冊使用者相關的路由
-	cfg.UserService.RegisterUserRoutes(router)
+	cfg.UserService.RegisterUser(router)
 
 	// 建立 HTTP server 實例
 	server := &http.Server{

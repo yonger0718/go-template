@@ -9,21 +9,21 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"go-template/internal/utils/logutil"
+	"go-template/internal/utils/logger"
 )
 
 // Config struct，定義了應用程式的配置
 type Config struct {
-	DBHost         string         // 資料庫主機
-	DBPort         int            // 資料庫埠號
-	DBUser         string         // 資料庫使用者名稱
-	DBPassword     string         // 資料庫密碼
-	DBName         string         // 資料庫名稱
-	JWTSecret      string         // JWT 密鑰
-	JWTOldSecrets  []string       // 舊的 JWT 密鑰，用於支援密鑰輪換
-	TokenExpiresIn time.Duration  // Token 過期時間
-	AppPort        int            // 應用程式埠號
-	Logger         logutil.Config // 日誌配置
+	DBHost         string        // 資料庫主機
+	DBPort         int           // 資料庫埠號
+	DBUser         string        // 資料庫使用者名稱
+	DBPassword     string        // 資料庫密碼
+	DBName         string        // 資料庫名稱
+	JWTSecret      string        // JWT 密鑰
+	JWTOldSecrets  []string      // 舊的 JWT 密鑰，用於支援密鑰輪換
+	TokenExpiresIn time.Duration // Token 過期時間
+	AppPort        int           // 應用程式埠號
+	Logger         logger.Config // 日誌配置
 }
 
 // LoadConfig 載入配置
@@ -75,7 +75,7 @@ func LoadConfig() (*Config, error) {
 		JWTOldSecrets:  jwtOldSecrets,
 		TokenExpiresIn: time.Duration(tokenExpiresIn) * time.Hour, // 將小時轉換成 time.Duration
 		AppPort:        appPort,
-		Logger: logutil.Config{
+		Logger: logger.Config{
 			Level:       getEnv("LOG_LEVEL", "info"),
 			Filename:    getEnv("LOG_FILENAME", "logs/app"),
 			LocalTime:   getBoolEnv("LOG_LOCAL_TIME", true),
