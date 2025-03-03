@@ -6,5 +6,5 @@
 
 ## example
 
-* [go-ethereum/build](https://github.com/ethereum/go-ethereum/blob/master/build)
-* [kubernetes/build](https://github.com/kubernetes/kubernetes/tree/master/build)
+- [go-ethereum/build](https://github.com/ethereum/go-ethereum/blob/master/build)
+- [kubernetes/build](https://github.com/kubernetes/kubernetes/tree/master/build)

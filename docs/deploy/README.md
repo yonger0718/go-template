@@ -4,6 +4,6 @@
 
 ## example
 
-* [cockroach/build/deploy](https://github.com/cockroachdb/cockroach/tree/master/build/deploy)
+- [cockroach/build/deploy](https://github.com/cockroachdb/cockroach/tree/master/build/deploy)
 
-* [minikube/deploy](https://github.com/kubernetes/minikube/tree/master/deploy)
+- [minikube/deploy](https://github.com/kubernetes/minikube/tree/master/deploy)

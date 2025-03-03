@@ -6,15 +6,15 @@
 
 ## 檔案
 
-*   **`config.go`**:  用於載入和解析配置。
+- **`config.go`**:  用於載入和解析配置。
 
 ## 說明
 
-*   `config.go` 使用 `github.com/joho/godotenv` 庫從 `.env` 檔案中載入環境變數。
-*   `LoadConfig` 函數用於載入配置，並回傳一個 `Config` 結構體的指標。
-*   檔案中定義了 `getEnv` 和 `getBoolEnv` 輔助函數，用於取得環境變數並提供預設值。
+- `config.go` 使用 `github.com/joho/godotenv` 庫從 `.env` 檔案中載入環境變數。
+- `LoadConfig` 函數用於載入配置，並回傳一個 `Config` 結構體的指標。
+- 檔案中定義了 `getEnv` 和 `getBoolEnv` 輔助函數，用於取得環境變數並提供預設值。
 
 ## 範例
 
-* [gogs/conf](https://github.com/gogs/gogs/tree/main/conf)
-* [micro/internal/config](https://github.com/micro/micro/tree/master/internal/config)
+- [gogs/conf](https://github.com/gogs/gogs/tree/main/conf)
+- [micro/internal/config](https://github.com/micro/micro/tree/master/internal/config)

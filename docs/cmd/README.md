@@ -8,21 +8,23 @@
 
 ## 說明
 
-*   `cmd` 目錄下的每個子目錄都應該對應一個獨立的可執行檔案。
-*   `main.go` 檔案應該儘可能簡潔，主要負責：
-    *   載入配置
-    *   初始化日誌
-    *   使用 Wire 進行依賴注入
-    *   啟動伺服器
-*   避免在 `main.go` 中編寫過多的業務邏輯。
-*   每個 `main.go` 檔案都屬於 `main` package。
+- `cmd` 目錄下的每個子目錄都應該對應一個獨立的可執行檔案。
+- `main.go` 檔案應該儘可能簡潔，主要負責：
+  - 載入配置
+  - 初始化日誌
+  - 使用 Wire 進行依賴注入
+  - 啟動伺服器
+- 避免在 `main.go` 中編寫過多的業務邏輯。
+- 每個 `main.go` 檔案都屬於 `main` package。
 
 ## example
 
-* [kubernetes/cmd](https://github.com/kubernetes/kubernetes/tree/master/cmd)
+- [kubernetes/cmd](https://github.com/kubernetes/kubernetes/tree/master/cmd)
 
 > 要參考感覺這個會比較實在，k8s的老實說偏大
-* [caddy/cmd](https://github.com/caddyserver/caddy/tree/master/cmd)
+
+- [caddy/cmd](https://github.com/caddyserver/caddy/tree/master/cmd)
 
 > 這個專案的模式也算是一種方案，他的layout比較偏向是以類似 `src` 單一路徑的方式在管理
-* [minio/cmd](https://github.com/minio/minio/tree/master/cmd)
+
+- [minio/cmd](https://github.com/minio/minio/tree/master/cmd)

@@ -4,5 +4,5 @@
 
 ## 說明
 
-*   `NewUserService` 函數用於建立 `userService` 結構體的實例，並注入 `repository.UserRepository` 和 `jwt.Service` 的依賴。
-*   `userService` 結構體包含了 `repository.UserRepository` 和 `jwt.Service` 的實例。
+- `NewUserService` 函數用於建立 `userService` 結構體的實例，並注入 `repository.UserRepository` 和 `jwt.Service` 的依賴。
+- `userService` 結構體包含了 `repository.UserRepository` 和 `jwt.Service` 的實例。

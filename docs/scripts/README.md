@@ -8,15 +8,15 @@
 
 目前這個目錄是空的，你可以根據需要添加腳本，例如：
 
-*   `build.sh`:  建置專案的腳本。
-*   `deploy.sh`:  部署專案的腳本。
-*   `test.sh`:  執行測試的腳本。
-*   `setup.sh`: 設定開發環境的腳本。
+- `build.sh`:  建置專案的腳本。
+- `deploy.sh`:  部署專案的腳本。
+- `test.sh`:  執行測試的腳本。
+- `setup.sh`: 設定開發環境的腳本。
 
 等等。
 
 ## example
 
-* [prometheus/scripts](https://github.com/prometheus/prometheus/tree/main/scripts)
+- [prometheus/scripts](https://github.com/prometheus/prometheus/tree/main/scripts)
 
-* [harness/scripts](https://github.com/harness/harness/tree/main/scripts)
+- [harness/scripts](https://github.com/harness/harness/tree/main/scripts)
